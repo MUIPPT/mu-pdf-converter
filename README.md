@@ -217,6 +217,6 @@ If this tool saves you time, consider giving it a star ⭐ — it helps others d
 
 [MIT](LICENSE) © 2024-2026 mupoet (木先生iPPT)
 
-**Acknowledgments**: Built upon the excellent work of [PyMuPDF](https://github.com/pymupdf/PyMuPDF), [python-pptx](https://github.com/scanny/python-pptx), [pdfplumber](https://github.com/jsvine/pdfplumber), [MarkItDown](https://github.com/microsoft/markitdown), and the open-source community.
+**Acknowledgments**: Thanks to [PyMuPDF](https://github.com/pymupdf/PyMuPDF), [python-pptx](https://github.com/scanny/python-pptx), [pdfplumber](https://github.com/jsvine/pdfplumber), and [MarkItDown](https://github.com/microsoft/markitdown) for providing excellent underlying library support.
 
 > Note: Much of this project was co-created with AI assistance. If you believe your work has been used without proper attribution, please open an issue.

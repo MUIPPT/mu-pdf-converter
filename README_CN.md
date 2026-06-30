@@ -217,6 +217,6 @@ python scripts/mcp_server.py
 
 [MIT](LICENSE) © 2024-2026 mupoet (木先生iPPT)
 
-**致谢**：本项目基于 [PyMuPDF](https://github.com/pymupdf/PyMuPDF)、[python-pptx](https://github.com/scanny/python-pptx)、[pdfplumber](https://github.com/jsvine/pdfplumber)、[MarkItDown](https://github.com/microsoft/markitdown) 等优秀开源项目构建。
+**致谢**：感谢 [PyMuPDF](https://github.com/pymupdf/PyMuPDF)、[python-pptx](https://github.com/scanny/python-pptx)、[pdfplumber](https://github.com/jsvine/pdfplumber)、[MarkItDown](https://github.com/microsoft/markitdown) 等优秀开源库提供底层能力支持。
 
 > 声明：本项目大部分内容由 AI 辅助完成。如您认为您的作品被使用但未获得适当署名，请提交 issue。
