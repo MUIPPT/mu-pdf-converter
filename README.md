@@ -15,6 +15,8 @@
 [![Version](https://img.shields.io/github/v/release/mupoet/mu-pdf-converter)](https://github.com/mupoet/mu-pdf-converter/releases)
 [![Stars](https://img.shields.io/github/stars/mupoet/mu-pdf-converter)](https://github.com/mupoet/mu-pdf-converter/stargazers)
 
+---
+
 ### 💡 Usage Examples
 
 - 📊 **Financial Reports** — "Convert this English annual report PDF to PPT with auto-translation to Chinese"
@@ -25,6 +27,8 @@
 - 🖼️ **Archival Images** — "Convert each page of this 20-page PDF to high-res PNG at 300 DPI"
 - 🌍 **Paper Translation** — "Convert this English research paper PDF to PPT, preserving layout while translating"
 - 📑 **Data Extraction** — "Extract the tables on pages 3-5 of this PDF report into Excel"
+
+---
 
 ### ✨ Core Highlights
 
@@ -94,6 +98,8 @@ Built-in MCP Server enables seamless integration with any AI assistant:
 - Zero external dependencies: RPC layer uses only Python standard library
 - Exposes 6 tools: `pdf_to_pptx` / `pdf_to_docx` / `pdf_to_xlsx` / `pdf_to_images` / `pdf_fill_form` / `pdf_remove_watermark`
 
+---
+
 ### 📌 Comparison
 
 | **Dimension** | **mu-pdf-converter** | **Adobe Acrobat** | **SmallPDF** | **iLovePDF** | **pdf2docx** |
@@ -109,6 +115,8 @@ Built-in MCP Server enables seamless integration with any AI assistant:
 | Open source | ✅ MIT | ❌ Commercial | ❌ Closed | ❌ Closed | ✅ Open |
 | Cost | Free | $239.88/yr | $9-18/mo | $7-12/mo | Free |
 
+---
+
 ### 🚀 Workflows
 
 | Workflow | Scenario | Trigger |
@@ -120,6 +128,8 @@ Built-in MCP Server enables seamless integration with any AI assistant:
 | Form Filling | Dual-path: fillable fields / coordinate annotation | "Fill PDF form", "PDF form filling" |
 | Watermark Removal | 4 strategies with preview mode | "Remove PDF watermark", "Remove watermark" |
 | Translation | Auto-translates foreign content during PDF→PPT | "Translate foreign PDF", "Translate English PDF to Chinese" |
+
+---
 
 ### ⚙️ Technical Specs
 
@@ -134,6 +144,8 @@ Built-in MCP Server enables seamless integration with any AI assistant:
 | Translation | translators (multi-engine) + local LLM (OpenAI-compatible API) |
 | MCP protocol | JSON-RPC 2.0 over stdin/stdout, zero external deps |
 | Batch limit | ≤ 100 PDFs per batch, ≤ 5000 text blocks per translation |
+
+---
 
 ### 🛠️ Quick Start
 
@@ -169,6 +181,8 @@ python scripts/mcp_server.py
 
 > 💡 Core conversion works without optional dependencies. Only XY-Cut table engine and translation require their respective packages.
 
+---
+
 ### 🔒 Security & Privacy
 
 - **100% local processing** — all PDF conversion happens on your machine
@@ -176,6 +190,8 @@ python scripts/mcp_server.py
 - **No telemetry** — zero tracking, zero analytics, zero data collection
 - **Optional external calls** — only translation may call external APIs (disable with `--no-translate`)
 - **MIT License** — fully open source, audit and modify freely
+
+---
 
 ### ⭐ Star History
 
@@ -185,6 +201,8 @@ If this tool saves you time, consider giving it a star ⭐ — it helps others d
 
 > Not "upload to cloud and wait" — local four-layer parsing that brings every element in your PDF back to life.
 
+---
+
 ### 👤 About the Author
 
 🎓 Signatory Author of Tsinghua University Press / 2026 Dangdang Influential Author / AI & Large Model Business HR Specialist at a Leading Tech Company / National Level-1 HR Manager / Level-2 Psychological Counselor / Self-taught Designer
@@ -192,6 +210,8 @@ If this tool saves you time, consider giving it a star ⭐ — it helps others d
 📚 Author of [*Visual Team Management*](https://item.m.jd.com/product/14547345.html). Clients include ByteDance, Tencent, Baidu, China Mobile, SMG, BOE…
 
 💡 [WeChat Official Account](https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA) / [Xiaohongshu](https://xhslink.com/m/ESxtgUNMdl): muippt
+
+---
 
 ### 📄 License & Acknowledgments
 
