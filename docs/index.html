@@ -126,12 +126,6 @@
   .workflow-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
   .workflow-trigger { display: inline-block; margin-top: 8px; padding: 2px 9px; border-radius: 4px; font-size: 0.7rem; background: var(--accent-bg); color: var(--accent); font-weight: 500; }
 
-  /* Security */
-  .security-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .security-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; text-align: center; transition: all var(--transition); }
-  .security-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
-  .security-icon { font-size: 1.6rem; margin-bottom: 10px; }
-  .security-item p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
 
   /* CTA */
   .cta-section { text-align: center; padding: 100px 0; }
@@ -152,7 +146,6 @@
     .stat:nth-child(4)::after, .stat:nth-child(3)::after { display: none; }
     .features-grid { grid-template-columns: 1fr; }
     .workflow-grid { grid-template-columns: 1fr; }
-    .security-grid { grid-template-columns: repeat(2, 1fr); }
     .nav-links { display: none; }
     .hero { padding: 120px 0 60px; }
     .comparison-table { font-size: 0.78rem; }
@@ -160,7 +153,6 @@
   }
   @media (max-width: 480px) {
     .stats { grid-template-columns: repeat(2, 1fr); }
-    .security-grid { grid-template-columns: 1fr; }
   }
 </style>
 </head>
@@ -181,7 +173,7 @@
 
 <section class="hero"><div class="container">
 <div class="hero-badge"><span class="dot"></span><span data-en="v1.7.0 · Open Source" data-zh="v1.7.0 · 开源发布">v1.7.0 · 开源发布</span></div>
-<h1><span data-en="Not a screenshot pasted into PPT.<br>Every element is <em>fully editable</em>." data-zh="不是截图贴进PPT。<br>每个元素都<em>完全可编辑</em>。">不是截图贴进PPT。<br>每个元素都<em>完全可编辑</em>。</span></h1>
+<h1><span data-en="High-fidelity PDF conversion into any format.<br>Every element stays <em>fully editable</em>." data-zh="PDF高保真转换成各种文件，<br>每个元素还能<em>完全可编辑</em>。">PDF高保真转换成各种文件，<br>每个元素还能<em>完全可编辑</em>。</span></h1>
 <p class="hero-sub"><span data-en="🔄 Four-layer parsing · three-engine table extraction · auto-translation · watermark removal · form filling — all 100% local, zero cloud uploads." data-zh="🔄 四层叠加解析 · 三引擎表格提取 · 外文自动翻译 · 智能去水印 · 双路径表单填写——100%本地处理，零云端上传。">🔄 四层叠加解析 · 三引擎表格提取 · 外文自动翻译 · 智能去水印 · 双路径表单填写——100%本地处理，零云端上传。</span></p>
 <div class="hero-actions">
 <a href="https://github.com/mupoet/mu-pdf-converter" class="btn btn-primary" target="_blank"><span data-en="⭐ Star on GitHub" data-zh="⭐ GitHub 加星">⭐ GitHub 加星</span></a>
@@ -288,20 +280,9 @@
 </div>
 </div></section>
 
-<section id="security"><div class="container">
-<div class="section-header center"><div class="section-label"><span data-en="🔒 Security & Privacy" data-zh="🔒 安全与隐私">🔒 安全与隐私</span></div>
-<h2 class="section-title"><span data-en="Your files never leave your machine" data-zh="你的文件永远不离开你的电脑">你的文件永远不离开你的电脑</span></h2>
-</div>
-<div class="security-grid">
-<div class="security-item"><div class="security-icon">🏠</div><p><span data-en="100% local processing" data-zh="100% 本地处理">100% 本地处理</span></p></div>
-<div class="security-item"><div class="security-icon">🚫</div><p><span data-en="No telemetry or tracking" data-zh="无遥测、无追踪">无遥测、无追踪</span></p></div>
-<div class="security-item"><div class="security-icon">☁️</div><p><span data-en="No cloud uploads ever" data-zh="绝不上传云端">绝不上传云端</span></p></div>
-<div class="security-item"><div class="security-icon">📜</div><p><span data-en="MIT — fully open source" data-zh="MIT — 完全开源">MIT — 完全开源</span></p></div>
-</div>
-</div></section>
 
 <section class="cta-section"><div class="container">
-<h2><span data-en="⚡ Stop uploading to the cloud.<br><em>Convert locally.</em>" data-zh="⚡ 别再上传到云端了。<br><em>本地转换。</em>">⚡ 别再上传到云端了。<br><em>本地转换。</em></span></h2>
+<h2><span data-en="⚡ Stop paying subscriptions.<br><em>Convert freely, anytime.</em>" data-zh="⚡ 别再充钱了，<br><em>自己随时随地自由转换。</em>">⚡ 别再充钱了，<br><em>自己随时随地自由转换。</em></span></h2>
 <p><span data-en="Four-layer parsing brings every element in your PDF back to life — text, tables, vectors, images — all fully editable." data-zh="四层叠加解析让PDF里的每个元素都活过来——文字、表格、矢量图、位图——全部可编辑。">四层叠加解析让PDF里的每个元素都活过来——文字、表格、矢量图、位图——全部可编辑。</span></p>
 <div class="hero-actions">
 <a href="https://github.com/mupoet/mu-pdf-converter" class="btn btn-primary" target="_blank"><span data-en="⭐ Star on GitHub" data-zh="⭐ GitHub 加星">⭐ GitHub 加星</span></a>
@@ -315,8 +296,7 @@
 <a href="https://github.com/mupoet/mu-pdf-converter/releases"><span data-en="Releases" data-zh="版本发布">版本发布</span></a>
 <a href="https://github.com/mupoet/mu-pdf-converter/issues"><span data-en="Issues" data-zh="问题反馈">问题反馈</span></a>
 </div>
-<div class="footer-copy"><span data-en="🛡️ MIT License · 100% local, zero cloud" data-zh="🛡️ MIT License · 100%本地，零云端">🛡️ MIT License · 100%本地，零云端</span></div>
-<div class="footer-copy" style="margin-top:8px">©️ <a href="https://github.com/mupoet" target="_blank">木先生iPPT</a> · 📚 <span data-en="Extended reading " data-zh="扩展阅读 ">扩展阅读 </span><a href="https://item.m.jd.com/product/14547345.html" target="_blank"><span data-en="Visual Team Management" data-zh="《图解团队管理》">《图解团队管理》</span></a> · 💡 <a href="https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA" target="_blank"><span data-en="WeChat" data-zh="微信公众号">微信公众号</span></a> / <a href="https://xhslink.com/m/ESxtgUNMdl" target="_blank"><span data-en="Xiaohongshu" data-zh="小红书">小红书</span></a>：muippt</div>
+<div class="footer-copy">©️ <a href="https://github.com/mupoet" target="_blank">木先生iPPT</a> · 📚 <span data-en="Extended reading " data-zh="扩展阅读 ">扩展阅读 </span><a href="https://item.m.jd.com/product/14547345.html" target="_blank"><span data-en="Visual Team Management" data-zh="《图解团队管理》">《图解团队管理》</span></a> · 💡 <a href="https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA" target="_blank"><span data-en="WeChat" data-zh="微信公众号">微信公众号</span></a> / <a href="https://xhslink.com/m/ESxtgUNMdl" target="_blank"><span data-en="Xiaohongshu" data-zh="小红书">小红书</span></a>：muippt</div>
 </div></footer>
 
 <script>
