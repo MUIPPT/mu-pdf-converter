@@ -1,0 +1,62 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mu-pdf-converter"
+version = "1.7.0"
+description = "High-fidelity PDF converter — PPT/Word/Excel/Images with editable tables and auto-translation"
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.9"
+authors = [
+    {name = "mupoet", email = "muippt@gmail.com"},
+]
+keywords = ["pdf", "converter", "pptx", "docx", "xlsx", "table-extraction", "translation"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Office/Business",
+    "Topic :: Text Processing :: General",
+]
+
+dependencies = [
+    "pymupdf>=1.23.0",
+    "pdfplumber>=0.10.0",
+    "python-pptx>=0.6.21",
+    "python-docx>=0.8.11",
+    "openpyxl>=3.1.0",
+    "lxml>=4.9.0",
+    "pypdf>=3.0.0",
+]
+
+[project.optional-dependencies]
+all = [
+    "pypdfium2>=4.0.0",
+    "markitdown>=0.1.0",
+    "translators>=5.0.0",
+    "requests>=2.28.0",
+]
+translation = [
+    "translators>=5.0.0",
+    "requests>=2.28.0",
+]
+table-enhanced = [
+    "pypdfium2>=4.0.0",
+    "markitdown>=0.1.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/mupoet/mu-pdf-converter"
+Repository = "https://github.com/mupoet/mu-pdf-converter"
+Issues = "https://github.com/mupoet/mu-pdf-converter/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["scripts*"]
