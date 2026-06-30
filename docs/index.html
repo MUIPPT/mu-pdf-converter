@@ -1,447 +1,343 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>mu-pdf-converter — High-Fidelity PDF Format Converter</title>
 <meta name="description" content="Transform PDFs into fully editable PowerPoint, Word, Excel with four-layer parsing, three-engine table extraction, and automatic translation. 100% local, open source.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@600;700&display=swap" rel="stylesheet">
 <style>
-:root {
-  --bg: #faf8f5;
-  --bg-card: #ffffff;
-  --text: #2c2c2c;
-  --text-muted: #6b6560;
-  --accent: #c0583a;
-  --accent-hover: #a04828;
-  --border: #e8e2dc;
-  --shadow: 0 2px 12px rgba(0,0,0,0.06);
-  --radius: 12px;
-  --font: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
-  --max-w: 960px;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { color: var(--accent-hover); }
+  :root {
+    --bg: #faf9f7;
+    --bg-warm: #f5f0eb;
+    --bg-card: #ffffff;
+    --bg-code: #faf5f0;
+    --text: #2d2a26;
+    --text-secondary: #5c5650;
+    --text-muted: #8c857e;
+    --accent: #c96442;
+    --accent-hover: #e8a07a;
+    --accent-bg: rgba(201,100,66,0.07);
+    --green: #5a8a6a;
+    --border: #e8e2db;
+    --border-light: #f0ebe5;
+    --font-serif: 'Noto Serif SC', 'Georgia', serif;
+    --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans SC', 'PingFang SC', sans-serif;
+    --font-mono: 'SF Mono', 'Fira Code', monospace;
+    --radius: 12px;
+    --radius-sm: 8px;
+    --transition: 0.2s ease;
+    --container: 1080px;
+    --shadow-sm: 0 1px 2px rgba(0,0,0,0.04);
+    --shadow-md: 0 4px 12px rgba(0,0,0,0.06);
+  }
 
-/* Header / Hero */
-.hero {
-  text-align: center;
-  padding: 80px 24px 60px;
-  max-width: var(--max-w);
-  margin: 0 auto;
-}
-.hero h1 {
-  font-size: 2.6rem;
-  font-weight: 700;
-  margin-bottom: 16px;
-  letter-spacing: -0.02em;
-}
-.hero .tagline {
-  font-size: 1.2rem;
-  color: var(--text-muted);
-  max-width: 640px;
-  margin: 0 auto 32px;
-}
-.hero .cta {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  padding: 14px 36px;
-  border-radius: 8px;
-  font-size: 1rem;
-  font-weight: 600;
-  transition: background 0.2s;
-}
-.hero .cta:hover { background: var(--accent-hover); color: #fff; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.7; -webkit-font-smoothing: antialiased; }
+  a { color: var(--accent); text-decoration: none; transition: color var(--transition); }
+  a:hover { color: var(--accent-hover); }
+  .container { max-width: var(--container); margin: 0 auto; padding: 0 32px; }
 
-/* Stats bar */
-.stats {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  flex-wrap: wrap;
-  padding: 24px;
-  max-width: var(--max-w);
-  margin: 0 auto 48px;
-}
-.stats .stat {
-  text-align: center;
-}
-.stats .stat-num {
-  font-size: 2rem;
-  font-weight: 700;
-  color: var(--accent);
-}
-.stats .stat-label {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-  margin-top: 4px;
-}
+  /* Nav */
+  nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; background: rgba(250,249,247,0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid var(--border-light); }
+  .nav-inner { max-width: var(--container); margin: 0 auto; padding: 0 32px; display: flex; align-items: center; height: 56px; }
+  .nav-logo { font-family: var(--font-mono); font-size: 0.88rem; font-weight: 700; color: var(--text); }
+  .nav-links { list-style: none; display: flex; gap: 28px; margin-left: auto; margin-right: 24px; }
+  .nav-links a { color: var(--text-secondary); font-size: 0.82rem; font-weight: 500; }
+  .nav-links a:hover { color: var(--accent); }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .lang-switch { display: flex; background: var(--bg-warm); border-radius: 6px; padding: 3px; font-size: 0.75rem; }
+  .lang-switch span { padding: 4px 10px; border-radius: 4px; cursor: pointer; color: var(--text-muted); transition: all var(--transition); user-select: none; }
+  .lang-switch span.active { background: var(--bg-card); color: var(--text); box-shadow: var(--shadow-sm); font-weight: 600; }
+  .nav-cta { font-size: 0.8rem; font-weight: 600; color: var(--accent); border: 1px solid var(--accent); border-radius: 6px; padding: 5px 14px; transition: all var(--transition); }
+  .nav-cta:hover { background: var(--accent); color: #fff; }
 
-/* Sections */
-section {
-  max-width: var(--max-w);
-  margin: 0 auto 56px;
-  padding: 0 24px;
-}
-section h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 24px;
-  padding-bottom: 8px;
-  border-bottom: 2px solid var(--border);
-}
+  /* Hero */
+  .hero { padding: 140px 0 80px; text-align: center; }
+  .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; border-radius: 20px; background: var(--accent-bg); font-size: 0.78rem; font-weight: 500; color: var(--accent); margin-bottom: 28px; }
+  .hero-badge .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 700; line-height: 1.3; margin-bottom: 20px; letter-spacing: -0.02em; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero-sub { font-size: 1.05rem; color: var(--text-secondary); max-width: 640px; margin: 0 auto 36px; line-height: 1.8; }
+  .hero-actions { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+  .btn { display: inline-flex; align-items: center; gap: 6px; padding: 12px 28px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; transition: all var(--transition); }
+  .btn-primary { background: var(--accent); color: #fff; }
+  .btn-primary:hover { background: #b8593a; color: #fff; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(201,100,66,0.25); }
+  .btn-secondary { background: var(--bg-card); color: var(--text); border: 1px solid var(--border); }
+  .btn-secondary:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
 
-/* Feature grid */
-.features {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-.feature-card {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 24px;
-  box-shadow: var(--shadow);
-}
-.feature-card h3 {
-  font-size: 1.1rem;
-  margin-bottom: 8px;
-}
-.feature-card p {
-  font-size: 0.9rem;
-  color: var(--text-muted);
-}
+  /* Stats */
+  .stats { display: grid; grid-template-columns: repeat(5, 1fr); max-width: 700px; margin: 48px auto 0; border: 1px solid var(--border-light); border-radius: var(--radius); overflow: hidden; background: var(--bg-card); }
+  .stat { text-align: center; padding: 24px 12px; position: relative; }
+  .stat:not(:last-child)::after { content: ''; position: absolute; right: 0; top: 20%; height: 60%; width: 1px; background: var(--border-light); }
+  .stat-num { font-size: 1.5rem; font-weight: 700; color: var(--accent); margin-bottom: 4px; }
+  .stat-label { font-size: 0.72rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
 
-/* Comparison table */
-.table-wrap {
-  overflow-x: auto;
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
-  box-shadow: var(--shadow);
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.88rem;
-  background: var(--bg-card);
-}
-th, td {
-  padding: 12px 16px;
-  text-align: left;
-  border-bottom: 1px solid var(--border);
-}
-th { background: #f5f1ec; font-weight: 600; white-space: nowrap; }
-td:first-child { font-weight: 500; }
+  /* Section */
+  section { padding: 80px 0; }
+  .section-header { margin-bottom: 48px; }
+  .section-header.center { text-align: center; }
+  .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent); margin-bottom: 12px; }
+  .section-title { font-family: var(--font-serif); font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 700; line-height: 1.3; margin-bottom: 12px; }
+  .section-desc { font-size: 0.92rem; color: var(--text-secondary); max-width: 600px; line-height: 1.8; }
+  .section-header.center .section-desc { margin: 0 auto; }
 
-/* Workflow list */
-.workflows {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 16px;
-}
-.workflow-item {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 20px;
-  box-shadow: var(--shadow);
-}
-.workflow-item h4 {
-  font-size: 1rem;
-  margin-bottom: 6px;
-}
-.workflow-item p {
-  font-size: 0.85rem;
-  color: var(--text-muted);
-}
+  /* Feature cards */
+  .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .feature-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 28px; transition: all var(--transition); }
+  .feature-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-md); border-color: var(--border); }
+  .feature-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; margin-bottom: 16px; background: var(--accent-bg); }
+  .feature-card h3 { font-size: 0.95rem; font-weight: 700; margin-bottom: 8px; }
+  .feature-card p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.6; }
 
-/* Quick start */
-.quickstart {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 32px;
-  box-shadow: var(--shadow);
-}
-.quickstart pre {
-  background: #2c2c2c;
-  color: #e8e2dc;
-  padding: 16px 20px;
-  border-radius: 8px;
-  overflow-x: auto;
-  font-size: 0.85rem;
-  line-height: 1.6;
-  margin: 12px 0 20px;
-}
-.quickstart code { font-family: 'SF Mono', 'Fira Code', monospace; }
-.step-label {
-  display: inline-block;
-  background: var(--accent);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
+  /* Layer table */
+  .layer-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-light); margin-top: 32px; }
+  .layer-table th, .layer-table td { padding: 14px 18px; text-align: left; font-size: 0.85rem; border-bottom: 1px solid var(--border-light); }
+  .layer-table thead th { background: var(--bg-warm); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+  .layer-table tbody tr { background: var(--bg-card); transition: background var(--transition); }
+  .layer-table tbody tr:hover { background: var(--bg-warm); }
+  .layer-table tbody tr:last-child td { border-bottom: none; }
+  .layer-badge { display: inline-block; padding: 2px 10px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; }
+  .layer-badge.l1 { background: rgba(201,100,66,0.1); color: var(--accent); }
+  .layer-badge.l2 { background: rgba(90,138,106,0.1); color: var(--green); }
+  .layer-badge.l3 { background: rgba(90,122,154,0.1); color: #5a7a9a; }
+  .layer-badge.l4 { background: rgba(150,120,80,0.1); color: #967850; }
 
-/* Footer */
-footer {
-  text-align: center;
-  padding: 40px 24px;
-  border-top: 1px solid var(--border);
-  color: var(--text-muted);
-  font-size: 0.85rem;
-  max-width: var(--max-w);
-  margin: 0 auto;
-}
-footer a { color: var(--accent); }
+  /* Comparison */
+  .comparison-table { width: 100%; border-collapse: separate; border-spacing: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--border-light); }
+  .comparison-table th, .comparison-table td { padding: 14px 18px; text-align: left; font-size: 0.85rem; border-bottom: 1px solid var(--border-light); }
+  .comparison-table thead th { background: var(--bg-warm); font-weight: 600; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-secondary); }
+  .comparison-table thead th:nth-child(2) { color: var(--accent); }
+  .comparison-table tbody tr { background: var(--bg-card); transition: background var(--transition); }
+  .comparison-table tbody tr:hover { background: var(--bg-warm); }
+  .comparison-table tbody tr:last-child td { border-bottom: none; }
+  .comparison-table td:first-child { font-weight: 600; }
+  .check { color: var(--green); font-weight: 700; }
+  .cross { color: #c0705a; }
 
-/* Language toggle */
-.lang-toggle {
-  position: fixed;
-  top: 16px;
-  right: 16px;
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 6px 12px;
-  font-size: 0.8rem;
-  cursor: pointer;
-  z-index: 100;
-  box-shadow: var(--shadow);
-}
+  /* Workflow */
+  .workflow-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .workflow-card { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; transition: all var(--transition); }
+  .workflow-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: var(--border); }
+  .workflow-card h4 { font-size: 0.92rem; font-weight: 700; margin-bottom: 6px; display: flex; align-items: center; gap: 8px; }
+  .workflow-card p { font-size: 0.8rem; color: var(--text-secondary); line-height: 1.6; }
+  .workflow-trigger { display: inline-block; margin-top: 8px; padding: 2px 9px; border-radius: 4px; font-size: 0.7rem; background: var(--accent-bg); color: var(--accent); font-weight: 500; }
 
-[data-lang="zh"] [data-en] { display: none; }
-[data-lang="en"] [data-zh] { display: none; }
+  /* Security */
+  .security-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .security-item { background: var(--bg-card); border: 1px solid var(--border-light); border-radius: var(--radius); padding: 24px; text-align: center; transition: all var(--transition); }
+  .security-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
+  .security-icon { font-size: 1.6rem; margin-bottom: 10px; }
+  .security-item p { font-size: 0.82rem; color: var(--text-secondary); line-height: 1.5; }
 
-@media (max-width: 600px) {
-  .hero h1 { font-size: 1.8rem; }
-  .hero .tagline { font-size: 1rem; }
-  .stats { gap: 24px; }
-  .stats .stat-num { font-size: 1.5rem; }
-}
+  /* CTA */
+  .cta-section { text-align: center; padding: 100px 0; }
+  .cta-section h2 { font-family: var(--font-serif); font-size: clamp(1.6rem, 3.5vw, 2.4rem); font-weight: 700; margin-bottom: 14px; }
+  .cta-section h2 em { font-style: normal; color: var(--accent); }
+  .cta-section p { color: var(--text-secondary); font-size: 1rem; margin-bottom: 36px; line-height: 1.8; }
+
+  /* Footer */
+  footer { border-top: 1px solid var(--border-light); padding: 40px 0; text-align: center; }
+  .footer-links { display: flex; justify-content: center; gap: 28px; margin-bottom: 16px; flex-wrap: wrap; }
+  .footer-links a { color: var(--text-muted); font-size: 0.82rem; }
+  .footer-links a:hover { color: var(--text); }
+  .footer-copy { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .stats { grid-template-columns: repeat(3, 1fr); }
+    .stat:nth-child(4)::after, .stat:nth-child(3)::after { display: none; }
+    .features-grid { grid-template-columns: 1fr; }
+    .workflow-grid { grid-template-columns: 1fr; }
+    .security-grid { grid-template-columns: repeat(2, 1fr); }
+    .nav-links { display: none; }
+    .hero { padding: 120px 0 60px; }
+    .comparison-table { font-size: 0.78rem; }
+    .comparison-table th, .comparison-table td { padding: 10px 12px; }
+  }
+  @media (max-width: 480px) {
+    .stats { grid-template-columns: repeat(2, 1fr); }
+    .security-grid { grid-template-columns: 1fr; }
+  }
 </style>
 </head>
-<body data-lang="en">
+<body>
 
-<div class="lang-toggle" onclick="toggleLang()">
-  <span data-en>中文</span><span data-zh>English</span>
+<nav><div class="nav-inner">
+<div class="nav-logo">mu-pdf-converter</div>
+<ul class="nav-links">
+<li><a href="#features"><span data-en="Features" data-zh="核心能力">核心能力</span></a></li>
+<li><a href="#layers"><span data-en="Architecture" data-zh="技术架构">技术架构</span></a></li>
+<li><a href="#comparison"><span data-en="Comparison" data-zh="对比">对比</span></a></li>
+<li><a href="#workflows"><span data-en="Workflows" data-zh="工作流">工作流</span></a></li>
+</ul>
+<div class="nav-right">
+<div class="lang-switch" id="langSwitch"><span data-lang="zh" class="active">中文</span><span data-lang="en">EN</span></div>
+<a href="https://github.com/mupoet/mu-pdf-converter" class="nav-cta" target="_blank">GitHub</a>
+</div></div></nav>
+
+<section class="hero"><div class="container">
+<div class="hero-badge"><span class="dot"></span><span data-en="v1.7.0 · Open Source" data-zh="v1.7.0 · 开源发布">v1.7.0 · 开源发布</span></div>
+<h1><span data-en="Not a screenshot pasted into PPT.<br>Every element is <em>fully editable</em>." data-zh="不是截图贴进PPT。<br>每个元素都<em>完全可编辑</em>。">不是截图贴进PPT。<br>每个元素都<em>完全可编辑</em>。</span></h1>
+<p class="hero-sub"><span data-en="🔄 Four-layer parsing · three-engine table extraction · auto-translation · watermark removal · form filling — all 100% local, zero cloud uploads." data-zh="🔄 四层叠加解析 · 三引擎表格提取 · 外文自动翻译 · 智能去水印 · 双路径表单填写——100%本地处理，零云端上传。">🔄 四层叠加解析 · 三引擎表格提取 · 外文自动翻译 · 智能去水印 · 双路径表单填写——100%本地处理，零云端上传。</span></p>
+<div class="hero-actions">
+<a href="https://github.com/mupoet/mu-pdf-converter" class="btn btn-primary" target="_blank"><span data-en="⭐ Star on GitHub" data-zh="⭐ GitHub 加星">⭐ GitHub 加星</span></a>
+<a href="https://github.com/mupoet/mu-pdf-converter/releases" class="btn btn-secondary" target="_blank"><span data-en="📦 Download" data-zh="📦 下载">📦 下载</span></a>
 </div>
-
-<!-- Hero -->
-<div class="hero">
-  <h1>🔄 mu-pdf-converter</h1>
-  <p class="tagline">
-    <span data-en>High-fidelity PDF format converter — four-layer parsing brings every element back to life.</span>
-    <span data-zh>高保真 PDF 格式转换工具 — 四层解析让 PDF 里每个元素都活过来。</span>
-  </p>
-  <a href="https://github.com/mupoet/mu-pdf-converter" class="cta">
-    ⭐ <span data-en>Star on GitHub</span><span data-zh>GitHub 加星</span>
-  </a>
-</div>
-
-<!-- Stats -->
 <div class="stats">
-  <div class="stat"><div class="stat-num">🔄 4</div><div class="stat-label" data-en>PPT Layers</div><div class="stat-label" data-zh>PPT 叠加层</div></div>
-  <div class="stat"><div class="stat-num">📊 3</div><div class="stat-label" data-en>Table Engines</div><div class="stat-label" data-zh>表格引擎</div></div>
-  <div class="stat"><div class="stat-num">🧹 4</div><div class="stat-label" data-en>Watermark Strategies</div><div class="stat-label" data-zh>水印清除策略</div></div>
-  <div class="stat"><div class="stat-num">🔌 6</div><div class="stat-label" data-en>MCP Tools</div><div class="stat-label" data-zh>MCP 工具</div></div>
-  <div class="stat"><div class="stat-num">📄 7</div><div class="stat-label" data-en>Workflows</div><div class="stat-label" data-zh>转换工作流</div></div>
+<div class="stat"><div class="stat-num">🔄 4</div><div class="stat-label"><span data-en="PPT Layers" data-zh="PPT叠加层">PPT叠加层</span></div></div>
+<div class="stat"><div class="stat-num">📊 3</div><div class="stat-label"><span data-en="Table Engines" data-zh="表格引擎">表格引擎</span></div></div>
+<div class="stat"><div class="stat-num">🧹 4</div><div class="stat-label"><span data-en="WM Strategies" data-zh="去水印策略">去水印策略</span></div></div>
+<div class="stat"><div class="stat-num">🔌 6</div><div class="stat-label"><span data-en="MCP Tools" data-zh="MCP工具">MCP工具</span></div></div>
+<div class="stat"><div class="stat-num">🔀 7</div><div class="stat-label"><span data-en="Workflows" data-zh="工作流">工作流</span></div></div>
 </div>
+</div></section>
 
-<!-- Core Features -->
-<section>
-  <h2><span data-en>⚡ Core Capabilities</span><span data-zh>⚡ 核心能力</span></h2>
-  <div class="features">
-    <div class="feature-card">
-      <h3>🔄 <span data-en>Four-Layer PPT</span><span data-zh>四层叠加 PPT</span></h3>
-      <p data-en>Bitmap + SVG vectors + native tables + editable text boxes — every element is directly editable in PowerPoint.</p>
-      <p data-zh>位图 + SVG矢量 + 原生表格 + 可编辑文本框 — 打开PPT后每个元素都可直接编辑。</p>
-    </div>
-    <div class="feature-card">
-      <h3>📊 <span data-en>Three-Engine Tables</span><span data-zh>三引擎表格提取</span></h3>
-      <p data-en>XY-Cut → MarkItDown → pdfplumber cascading fallback. Handles borderless, merged, and irregular tables.</p>
-      <p data-zh>XY-Cut → MarkItDown → pdfplumber 三级降级。无边框、合并单元格、不规则表格通吃。</p>
-    </div>
-    <div class="feature-card">
-      <h3>🌍 <span data-en>Auto-Translation</span><span data-zh>外文自动翻译</span></h3>
-      <p data-en>Detects foreign language PDFs and generates translated versions with layout preserved. Term protection included.</p>
-      <p data-zh>自动检测外文PDF并生成翻译版本，保留排版。内置专有名词保护。</p>
-    </div>
-    <div class="feature-card">
-      <h3>📝 <span data-en>Dual-Path Forms</span><span data-zh>双路径表单填写</span></h3>
-      <p data-en>Standard fillable fields (AcroForm) + flat PDF coordinate annotation. Covers all form types.</p>
-      <p data-zh>标准可填字段（AcroForm）+ 扁平PDF坐标注释。覆盖所有表单类型。</p>
-    </div>
-    <div class="feature-card">
-      <h3>🧹 <span data-en>Watermark Removal</span><span data-zh>智能去水印</span></h3>
-      <p data-en>4 strategies (Text/Image/XObject/Aggressive) with preview mode. Even stubborn watermarks handled.</p>
-      <p data-zh>4种策略（文字/图片/XObject/激进）含预览模式。顽固水印也能处理。</p>
-    </div>
-    <div class="feature-card">
-      <h3>🔌 <span data-en>MCP Server</span><span data-zh>MCP Server</span></h3>
-      <p data-en>Built-in JSON-RPC 2.0 server with zero external deps. Any MCP-compatible AI assistant can call it directly.</p>
-      <p data-zh>内置 JSON-RPC 2.0 服务器，零外部依赖。任何 MCP 兼容的 AI 助手可直接调用。</p>
-    </div>
-  </div>
-</section>
+<section id="features"><div class="container">
+<div class="section-header center"><div class="section-label"><span data-en="⚡ Core Capabilities" data-zh="⚡ 核心能力">⚡ 核心能力</span></div>
+<h2 class="section-title"><span data-en="Six capabilities that make PDF conversion actually useful" data-zh="六大能力，让PDF转换真正好用">六大能力，让PDF转换真正好用</span></h2>
+<p class="section-desc"><span data-en="Not just format conversion — high-fidelity restoration, intelligent parsing, and AI-powered enhancement working together." data-zh="不只是格式转换——高保真还原、智能解析、AI增强，三者协同工作。">不只是格式转换——高保真还原、智能解析、AI增强，三者协同工作。</span></p>
+</div>
+<div class="features-grid">
+<div class="feature-card"><div class="feature-icon">🔄</div>
+<h3><span data-en="Four-Layer PPT" data-zh="四层叠加 PPT">四层叠加 PPT</span></h3>
+<p><span data-en="Bitmap + SVG vectors + native tables + editable text boxes. Open the PPT and text is selectable, tables can add rows, shapes can scale." data-zh="位图 + SVG矢量 + 原生表格 + 可编辑文本框。打开PPT后文字可选、表格可增行、图形可缩放。">位图 + SVG矢量 + 原生表格 + 可编辑文本框。打开PPT后文字可选、表格可增行、图形可缩放。</span></p></div>
+<div class="feature-card"><div class="feature-icon">📊</div>
+<h3><span data-en="Three-Engine Tables" data-zh="三引擎表格提取">三引擎表格提取</span></h3>
+<p><span data-en="XY-Cut → MarkItDown → pdfplumber cascading fallback. Borderless, merged cells, irregular layouts — three-tier safety net." data-zh="XY-Cut → MarkItDown → pdfplumber 三级降级。无边框、合并单元格、不规则布局——三重保险。">XY-Cut → MarkItDown → pdfplumber 三级降级。无边框、合并单元格、不规则布局——三重保险。</span></p></div>
+<div class="feature-card"><div class="feature-icon">🌍</div>
+<h3><span data-en="Auto-Translation" data-zh="外文自动翻译">外文自动翻译</span></h3>
+<p><span data-en="Detects foreign PDFs, translates while preserving layout. Dual-engine (translators + local LLM) with term protection." data-zh="自动检测外文PDF，翻译同时保留排版。双引擎（translators + 本地LLM）加专有名词保护。">自动检测外文PDF，翻译同时保留排版。双引擎（translators + 本地LLM）加专有名词保护。</span></p></div>
+<div class="feature-card"><div class="feature-icon">📝</div>
+<h3><span data-en="Dual-Path Forms" data-zh="双路径表单填写">双路径表单填写</span></h3>
+<p><span data-en="Path A: standard AcroForm fields. Path B: AI analyzes flat PDFs → coordinate annotation. Covers all form types." data-zh="路径A：标准AcroForm字段。路径B：AI分析扁平PDF → 坐标注释。覆盖所有表单类型。">路径A：标准AcroForm字段。路径B：AI分析扁平PDF → 坐标注释。覆盖所有表单类型。</span></p></div>
+<div class="feature-card"><div class="feature-icon">🧹</div>
+<h3><span data-en="Smart Watermark Removal" data-zh="智能去水印">智能去水印</span></h3>
+<p><span data-en="4 strategies: Text / Image / XObject / Aggressive. Preview mode (--detect-only) before committing." data-zh="4种策略：文字 / 图片 / XObject / 激进模式。支持预览确认（--detect-only）再执行。">4种策略：文字 / 图片 / XObject / 激进模式。支持预览确认（--detect-only）再执行。</span></p></div>
+<div class="feature-card"><div class="feature-icon">🔌</div>
+<h3><span data-en="MCP Server" data-zh="MCP Server">MCP Server</span></h3>
+<p><span data-en="Built-in JSON-RPC 2.0 over stdin/stdout. Zero external deps. Any MCP-compatible AI assistant calls it directly." data-zh="内置 JSON-RPC 2.0（stdin/stdout）。零外部依赖。任何MCP兼容的AI助手可直接调用。">内置 JSON-RPC 2.0（stdin/stdout）。零外部依赖。任何MCP兼容的AI助手可直接调用。</span></p></div>
+</div>
+</div></section>
 
-<!-- Comparison -->
-<section>
-  <h2><span data-en>📌 Why mu-pdf-converter?</span><span data-zh>📌 为什么选 mu-pdf-converter？</span></h2>
-  <div class="table-wrap">
-    <table>
-      <tr>
-        <th><span data-en>Dimension</span><span data-zh>维度</span></th>
-        <th>mu-pdf-converter</th>
-        <th>Adobe Acrobat</th>
-        <th>SmallPDF</th>
-        <th>pdf2docx</th>
-      </tr>
-      <tr>
-        <td><span data-en>PPT Editability</span><span data-zh>PPT可编辑</span></td>
-        <td>✅ 4-layer</td><td>✅</td><td>⚠️</td><td>❌</td>
-      </tr>
-      <tr>
-        <td><span data-en>Table Engine</span><span data-zh>表格引擎</span></td>
-        <td>✅ 3-engine</td><td>Single</td><td>Single</td><td>Single</td>
-      </tr>
-      <tr>
-        <td><span data-en>Auto-translate</span><span data-zh>自动翻译</span></td>
-        <td>✅</td><td>❌</td><td>❌</td><td>❌</td>
-      </tr>
-      <tr>
-        <td><span data-en>MCP Server</span><span data-zh>MCP 支持</span></td>
-        <td>✅</td><td>❌</td><td>❌</td><td>❌</td>
-      </tr>
-      <tr>
-        <td><span data-en>100% Local</span><span data-zh>本地运行</span></td>
-        <td>✅</td><td>⚠️</td><td>❌ Cloud</td><td>✅</td>
-      </tr>
-      <tr>
-        <td><span data-en>Open Source</span><span data-zh>开源</span></td>
-        <td>✅ MIT</td><td>❌</td><td>❌</td><td>✅</td>
-      </tr>
-      <tr>
-        <td><span data-en>Cost</span><span data-zh>费用</span></td>
-        <td><strong>Free</strong></td><td>$240/yr</td><td>$9-18/mo</td><td>Free</td>
-      </tr>
-    </table>
-  </div>
-</section>
+<section id="layers" style="background:var(--bg-warm)"><div class="container">
+<div class="section-header center"><div class="section-label"><span data-en="🏗️ Architecture" data-zh="🏗️ 技术架构">🏗️ 技术架构</span></div>
+<h2 class="section-title"><span data-en="Four layers stacked — not a dead screenshot" data-zh="四层叠加——不是死截图">四层叠加——不是死截图</span></h2>
+<p class="section-desc"><span data-en="Each layer handles one content type, stacked precisely. The result is a fully live, editable PowerPoint." data-zh="每层处理一种内容类型，精准叠加。最终产出是一个完全可编辑的 PowerPoint。">每层处理一种内容类型，精准叠加。最终产出是一个完全可编辑的 PowerPoint。</span></p>
+</div>
+<div style="overflow-x:auto"><table class="layer-table"><thead><tr>
+<th><span data-en="Layer" data-zh="层级">层级</span></th>
+<th><span data-en="Content" data-zh="内容">内容</span></th>
+<th><span data-en="Format" data-zh="格式">格式</span></th>
+<th><span data-en="Result" data-zh="效果">效果</span></th>
+</tr></thead><tbody>
+<tr><td><span class="layer-badge l1">L1</span></td><td><span data-en="Bitmaps" data-zh="位图">位图</span></td><td>PNG / JPEG</td><td><span data-en="Original clarity preserved" data-zh="原始清晰度保留">原始清晰度保留</span></td></tr>
+<tr><td><span class="layer-badge l2">L2</span></td><td><span data-en="Vectors" data-zh="矢量图">矢量图</span></td><td>SVG</td><td><span data-en="Paths & shapes editable in Office 2019+" data-zh="路径和形状在Office 2019+可编辑">路径和形状在Office 2019+可编辑</span></td></tr>
+<tr><td><span class="layer-badge l3">L3</span></td><td><span data-en="Tables" data-zh="表格">表格</span></td><td>Native Table</td><td><span data-en="Rows/columns editable, formatting changeable" data-zh="行列可编辑，格式可调整">行列可编辑，格式可调整</span></td></tr>
+<tr><td><span class="layer-badge l4">L4</span></td><td><span data-en="Text" data-zh="文本">文本</span></td><td>TextBox</td><td><span data-en="Font/color/bold/italic preserved, fully editable" data-zh="字体/颜色/加粗/斜体保留，完全可编辑">字体/颜色/加粗/斜体保留，完全可编辑</span></td></tr>
+</tbody></table></div>
+<div style="margin-top:24px;overflow-x:auto"><table class="layer-table"><thead><tr>
+<th><span data-en="Priority" data-zh="优先级">优先级</span></th>
+<th><span data-en="Table Engine" data-zh="表格引擎">表格引擎</span></th>
+<th><span data-en="Strength" data-zh="擅长">擅长</span></th>
+</tr></thead><tbody>
+<tr><td><span class="layer-badge l1">E1</span></td><td>XY-Cut (pypdfium2)</td><td><span data-en="Borderless tables, complex merged cells" data-zh="无边框表格、复杂合并单元格">无边框表格、复杂合并单元格</span></td></tr>
+<tr><td><span class="layer-badge l2">E2</span></td><td>MarkItDown (AI)</td><td><span data-en="Non-standard layouts, loosely aligned data" data-zh="非标准布局、松散对齐数据">非标准布局、松散对齐数据</span></td></tr>
+<tr><td><span class="layer-badge l3">E3</span></td><td>pdfplumber</td><td><span data-en="Standard bordered tables, compatibility fallback" data-zh="标准有边框表格、兼容性兜底">标准有边框表格、兼容性兜底</span></td></tr>
+</tbody></table></div>
+</div></section>
 
-<!-- Workflows -->
-<section>
-  <h2><span data-en>🔀 Workflows</span><span data-zh>🔀 转换工作流</span></h2>
-  <div class="workflows">
-    <div class="workflow-item">
-      <h4>📊 PDF → PPT</h4>
-      <p data-en>4-layer high-fidelity conversion with auto foreign language translation</p>
-      <p data-zh>四层叠加高保真转换，外文自动翻译</p>
-    </div>
-    <div class="workflow-item">
-      <h4>📝 PDF → Word</h4>
-      <p data-en>Paragraphs, headings, tables preserved with font styling</p>
-      <p data-zh>段落、标题、表格保留，字体样式完整</p>
-    </div>
-    <div class="workflow-item">
-      <h4>📋 PDF → Excel</h4>
-      <p data-en>Three-engine extraction, batch directory scanning (≤100 files)</p>
-      <p data-zh>三引擎提取，批量目录扫描（≤100文件）</p>
-    </div>
-    <div class="workflow-item">
-      <h4>🖼️ PDF → Images</h4>
-      <p data-en>High-quality per-page rendering, custom DPI (default 150)</p>
-      <p data-zh>逐页高质量渲染，自定义DPI（默认150）</p>
-    </div>
-    <div class="workflow-item">
-      <h4>📝 Form Filling</h4>
-      <p data-en>Dual-path: AcroForm fields or coordinate annotation for flat PDFs</p>
-      <p data-zh>双路径：AcroForm字段填写 或 坐标注释</p>
-    </div>
-    <div class="workflow-item">
-      <h4>🧹 Watermark Removal</h4>
-      <p data-en>4 strategies with preview mode (--detect-only)</p>
-      <p data-zh>4种策略，支持预览模式（--detect-only）</p>
-    </div>
-  </div>
-</section>
+<section id="comparison"><div class="container">
+<div class="section-header center"><div class="section-label"><span data-en="📌 Comparison" data-zh="📌 对比">📌 对比</span></div>
+<h2 class="section-title"><span data-en="Why mu-pdf-converter?" data-zh="为什么选 mu-pdf-converter？">为什么选 mu-pdf-converter？</span></h2>
+</div>
+<div style="overflow-x:auto"><table class="comparison-table"><thead><tr>
+<th><span data-en="Dimension" data-zh="维度">维度</span></th>
+<th>mu-pdf-converter</th>
+<th>Adobe Acrobat</th>
+<th>SmallPDF</th>
+<th>iLovePDF</th>
+<th>pdf2docx</th>
+</tr></thead><tbody>
+<tr><td><span data-en="PPT Editability" data-zh="PPT可编辑性">PPT可编辑性</span></td><td><span class="check"><span data-en="✅ 4-layer full edit" data-zh="✅ 4层全可编辑">✅ 4层全可编辑</span></span></td><td><span data-en="✅ Good" data-zh="✅ 较好">✅ 较好</span></td><td><span data-en="⚠️ Partial" data-zh="⚠️ 部分">⚠️ 部分</span></td><td><span data-en="⚠️ Partial" data-zh="⚠️ 部分">⚠️ 部分</span></td><td><span class="cross"><span data-en="❌ No" data-zh="❌ 不支持">❌ 不支持</span></span></td></tr>
+<tr><td><span data-en="Table Engine" data-zh="表格引擎">表格引擎</span></td><td><span class="check"><span data-en="✅ 3-engine cascade" data-zh="✅ 三引擎级联">✅ 三引擎级联</span></span></td><td><span data-en="Single" data-zh="单引擎">单引擎</span></td><td><span data-en="Single" data-zh="单引擎">单引擎</span></td><td><span data-en="Single" data-zh="单引擎">单引擎</span></td><td><span data-en="Single" data-zh="单引擎">单引擎</span></td></tr>
+<tr><td><span data-en="Auto-translate" data-zh="自动翻译">自动翻译</span></td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td></tr>
+<tr><td><span data-en="Batch Processing" data-zh="批量处理">批量处理</span></td><td><span class="check"><span data-en="✅ ≤100 files" data-zh="✅ ≤100文件">✅ ≤100文件</span></span></td><td><span data-en="✅ Yes" data-zh="✅ 支持">✅ 支持</span></td><td><span data-en="⚠️ Limited" data-zh="⚠️ 有限">⚠️ 有限</span></td><td><span data-en="⚠️ Limited" data-zh="⚠️ 有限">⚠️ 有限</span></td><td><span data-en="Manual" data-zh="手动编码">手动编码</span></td></tr>
+<tr><td><span data-en="MCP Server" data-zh="MCP协议">MCP协议</span></td><td><span class="check">✅</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td></tr>
+<tr><td><span data-en="100% Local" data-zh="本地运行">本地运行</span></td><td><span class="check">✅</span></td><td><span data-en="⚠️ Cloud features" data-zh="⚠️ 含云功能">⚠️ 含云功能</span></td><td><span class="cross"><span data-en="❌ Upload" data-zh="❌ 需上传">❌ 需上传</span></span></td><td><span class="cross"><span data-en="❌ Upload" data-zh="❌ 需上传">❌ 需上传</span></span></td><td><span class="check">✅</span></td></tr>
+<tr><td><span data-en="Open Source" data-zh="开源">开源</span></td><td><span class="check">✅ MIT</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="cross">❌</span></td><td><span class="check">✅</span></td></tr>
+<tr><td><span data-en="Cost" data-zh="费用">费用</span></td><td><strong>Free</strong></td><td>$240/yr</td><td>$9-18/mo</td><td>$7-12/mo</td><td>Free</td></tr>
+</tbody></table></div>
+</div></section>
 
-<!-- Quick Start -->
-<section>
-  <h2><span data-en>⚡ Quick Start</span><span data-zh>⚡ 快速开始</span></h2>
-  <div class="quickstart">
-    <span class="step-label"><span data-en>Step 1 — Install</span><span data-zh>第一步 — 安装</span></span>
-    <pre><code>pip install pymupdf pdfplumber python-pptx python-docx openpyxl lxml pypdf</code></pre>
+<section id="workflows" style="background:var(--bg-warm)"><div class="container">
+<div class="section-header center"><div class="section-label"><span data-en="🔀 Workflows" data-zh="🔀 转换工作流">🔀 转换工作流</span></div>
+<h2 class="section-title"><span data-en="Seven conversion paths, one tool" data-zh="七条转换路径，一个工具搞定">七条转换路径，一个工具搞定</span></h2>
+</div>
+<div class="workflow-grid">
+<div class="workflow-card"><h4>📊 PDF → PPT</h4><p><span data-en="High-fidelity 4-layer conversion with auto foreign language translation" data-zh="四层叠加高保真转换，外文自动翻译">四层叠加高保真转换，外文自动翻译</span></p><div class="workflow-trigger"><span data-en="&quot;Convert PDF to PPT&quot;" data-zh=""把PDF转成PPT"">"把PDF转成PPT"</span></div></div>
+<div class="workflow-card"><h4>📝 PDF → Word</h4><p><span data-en="Paragraphs + heading detection + table preservation with font styling" data-zh="段落 + 标题识别 + 表格保留，字体样式完整">段落 + 标题识别 + 表格保留，字体样式完整</span></p><div class="workflow-trigger"><span data-en="&quot;Make this PDF editable&quot;" data-zh=""让这个PDF可编辑"">"让这个PDF可编辑"</span></div></div>
+<div class="workflow-card"><h4>📋 PDF → Excel</h4><p><span data-en="Three-engine extraction, batch directory scan (≤100 files)" data-zh="三引擎提取，批量目录扫描（≤100文件）">三引擎提取，批量目录扫描（≤100文件）</span></p><div class="workflow-trigger"><span data-en="&quot;Extract PDF tables&quot;" data-zh=""提取PDF表格"">"提取PDF表格"</span></div></div>
+<div class="workflow-card"><h4>🖼️ PDF → Images</h4><p><span data-en="High-quality per-page rendering, custom DPI (default 150)" data-zh="逐页高质量渲染，自定义DPI（默认150）">逐页高质量渲染，自定义DPI（默认150）</span></p><div class="workflow-trigger"><span data-en="&quot;Convert PDF to PNG&quot;" data-zh=""PDF转图片"">"PDF转图片"</span></div></div>
+<div class="workflow-card"><h4>📝 <span data-en="Form Filling" data-zh="表单填写">表单填写</span></h4><p><span data-en="Dual-path: AcroForm fields or coordinate annotation for flat PDFs" data-zh="双路径：AcroForm字段 或 坐标注释填写扁平PDF">双路径：AcroForm字段 或 坐标注释填写扁平PDF</span></p><div class="workflow-trigger"><span data-en="&quot;Fill PDF form&quot;" data-zh=""填写PDF表格"">"填写PDF表格"</span></div></div>
+<div class="workflow-card"><h4>🧹 <span data-en="Watermark Removal" data-zh="去水印">去水印</span></h4><p><span data-en="4 strategies with preview mode (--detect-only) before execution" data-zh="4种策略，支持预览模式确认后再执行">4种策略，支持预览模式确认后再执行</span></p><div class="workflow-trigger"><span data-en="&quot;Remove watermark&quot;" data-zh=""去掉水印"">"去掉水印"</span></div></div>
+<div class="workflow-card"><h4>🌍 <span data-en="Translation" data-zh="外文翻译">外文翻译</span></h4><p><span data-en="Auto-detects & translates foreign content during PDF→PPT, preserving layout" data-zh="PDF→PPT过程中自动检测外文并翻译，保留排版">PDF→PPT过程中自动检测外文并翻译，保留排版</span></p><div class="workflow-trigger"><span data-en="&quot;Translate this English PDF&quot;" data-zh=""翻译这个英文PDF"">"翻译这个英文PDF"</span></div></div>
+</div>
+</div></section>
 
-    <span class="step-label"><span data-en>Step 2 — Convert</span><span data-zh>第二步 — 转换</span></span>
-    <pre><code># PDF → PPT (auto-translates foreign PDFs)
-python scripts/pdf_to_pptx.py report.pdf --outfile report.pptx
+<section id="security"><div class="container">
+<div class="section-header center"><div class="section-label"><span data-en="🔒 Security & Privacy" data-zh="🔒 安全与隐私">🔒 安全与隐私</span></div>
+<h2 class="section-title"><span data-en="Your files never leave your machine" data-zh="你的文件永远不离开你的电脑">你的文件永远不离开你的电脑</span></h2>
+</div>
+<div class="security-grid">
+<div class="security-item"><div class="security-icon">🏠</div><p><span data-en="100% local processing" data-zh="100% 本地处理">100% 本地处理</span></p></div>
+<div class="security-item"><div class="security-icon">🚫</div><p><span data-en="No telemetry or tracking" data-zh="无遥测、无追踪">无遥测、无追踪</span></p></div>
+<div class="security-item"><div class="security-icon">☁️</div><p><span data-en="No cloud uploads ever" data-zh="绝不上传云端">绝不上传云端</span></p></div>
+<div class="security-item"><div class="security-icon">📜</div><p><span data-en="MIT — fully open source" data-zh="MIT — 完全开源">MIT — 完全开源</span></p></div>
+</div>
+</div></section>
 
-# PDF → Excel (batch extract tables from directory)
-python scripts/pdf_to_xlsx.py --batch ./invoices/ --outfile batch.xlsx
+<section class="cta-section"><div class="container">
+<h2><span data-en="⚡ Stop uploading to the cloud.<br><em>Convert locally.</em>" data-zh="⚡ 别再上传到云端了。<br><em>本地转换。</em>">⚡ 别再上传到云端了。<br><em>本地转换。</em></span></h2>
+<p><span data-en="Four-layer parsing brings every element in your PDF back to life — text, tables, vectors, images — all fully editable." data-zh="四层叠加解析让PDF里的每个元素都活过来——文字、表格、矢量图、位图——全部可编辑。">四层叠加解析让PDF里的每个元素都活过来——文字、表格、矢量图、位图——全部可编辑。</span></p>
+<div class="hero-actions">
+<a href="https://github.com/mupoet/mu-pdf-converter" class="btn btn-primary" target="_blank"><span data-en="⭐ Star on GitHub" data-zh="⭐ GitHub 加星">⭐ GitHub 加星</span></a>
+<a href="https://github.com/mupoet/mu-pdf-converter/releases" class="btn btn-secondary" target="_blank"><span data-en="📦 Download Latest" data-zh="📦 下载最新版">📦 下载最新版</span></a>
+</div></div></section>
 
-# Remove watermarks
-python scripts/pdf_remove_watermark.py doc.pdf --outfile clean.pdf</code></pre>
-
-    <span class="step-label"><span data-en>Step 3 — MCP (optional)</span><span data-zh>第三步 — MCP（可选）</span></span>
-    <pre><code>python scripts/mcp_server.py</code></pre>
-  </div>
-</section>
-
-<!-- Security -->
-<section>
-  <h2><span data-en>🔒 Security & Privacy</span><span data-zh>🔒 安全与隐私</span></h2>
-  <div class="features" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
-    <div class="feature-card" style="text-align:center;">
-      <h3>🏠</h3>
-      <p data-en>100% local processing</p>
-      <p data-zh>100% 本地处理</p>
-    </div>
-    <div class="feature-card" style="text-align:center;">
-      <h3>🚫</h3>
-      <p data-en>No telemetry or tracking</p>
-      <p data-zh>无遥测或追踪</p>
-    </div>
-    <div class="feature-card" style="text-align:center;">
-      <h3>☁️</h3>
-      <p data-en>No cloud uploads</p>
-      <p data-zh>不上传云端</p>
-    </div>
-    <div class="feature-card" style="text-align:center;">
-      <h3>📜</h3>
-      <p data-en>MIT — fully open source</p>
-      <p data-zh>MIT — 完全开源</p>
-    </div>
-  </div>
-</section>
-
-<!-- Footer -->
-<footer>
-  <p>
-    ©️ <a href="https://github.com/mupoet">木先生iPPT</a> ·
-    📚 <a href="https://item.m.jd.com/product/14547345.html">《图解团队管理》</a> ·
-    💡 <a href="https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA">微信公众号</a> /
-    <a href="https://xhslink.com/m/ESxtgUNMdl">小红书</a>：muippt
-  </p>
-  <p style="margin-top:8px;">MIT License © 2024-2026 mupoet</p>
-</footer>
+<footer><div class="container">
+<div class="footer-links">
+<a href="https://github.com/mupoet/mu-pdf-converter" target="_blank">GitHub</a>
+<a href="https://github.com/mupoet/mu-pdf-converter/blob/main/README.md"><span data-en="Documentation" data-zh="文档">文档</span></a>
+<a href="https://github.com/mupoet/mu-pdf-converter/releases"><span data-en="Releases" data-zh="版本发布">版本发布</span></a>
+<a href="https://github.com/mupoet/mu-pdf-converter/issues"><span data-en="Issues" data-zh="问题反馈">问题反馈</span></a>
+</div>
+<div class="footer-copy"><span data-en="🛡️ MIT License · 100% local, zero cloud" data-zh="🛡️ MIT License · 100%本地，零云端">🛡️ MIT License · 100%本地，零云端</span></div>
+<div class="footer-copy" style="margin-top:8px">©️ <a href="https://github.com/mupoet" target="_blank">木先生iPPT</a> · 📚 <span data-en="Extended reading " data-zh="扩展阅读 ">扩展阅读 </span><a href="https://item.m.jd.com/product/14547345.html" target="_blank"><span data-en="Visual Team Management" data-zh="《图解团队管理》">《图解团队管理》</span></a> · 💡 <a href="https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA" target="_blank"><span data-en="WeChat" data-zh="微信公众号">微信公众号</span></a> / <a href="https://xhslink.com/m/ESxtgUNMdl" target="_blank"><span data-en="Xiaohongshu" data-zh="小红书">小红书</span></a>：muippt</div>
+</div></footer>
 
 <script>
-function toggleLang() {
-  const body = document.body;
-  const current = body.getAttribute('data-lang');
-  const next = current === 'en' ? 'zh' : 'en';
-  body.setAttribute('data-lang', next);
-  localStorage.setItem('mu-pdf-lang', next);
-}
-(function() {
-  const saved = localStorage.getItem('mu-pdf-lang');
-  if (saved) document.body.setAttribute('data-lang', saved);
+(function(){
+  var sw=document.getElementById('langSwitch');
+  var spans=sw.querySelectorAll('span');
+  function applyLang(lang){
+    document.querySelectorAll('[data-'+lang+']').forEach(function(el){
+      el.innerHTML=el.getAttribute('data-'+lang);
+    });
+    spans.forEach(function(s){s.classList.toggle('active',s.getAttribute('data-lang')===lang)});
+    localStorage.setItem('mu-pdf-lang',lang);
+    document.documentElement.lang=lang==='zh'?'zh':'en';
+  }
+  spans.forEach(function(s){s.addEventListener('click',function(){applyLang(s.getAttribute('data-lang'))})});
+  var saved=localStorage.getItem('mu-pdf-lang');
+  if(saved){applyLang(saved)}
+  else{
+    var bl=(navigator.language||'').toLowerCase();
+    applyLang(bl.startsWith('zh')?'zh':'en');
+  }
 })();
 </script>
 </body>
