@@ -185,8 +185,8 @@ python scripts/mcp_server.py
 
 ### 🔒 Security & Privacy
 
-- **100% local processing** — all PDF conversion happens on your machine
-- **No cloud uploads** — your files never leave your computer
+- **Local execution** — all conversion scripts run on your machine; the Skill itself does not upload files to any third-party service
+- **AI Agent note** — when used via an AI Agent, conversation content is processed by the LLM provider; please be mindful of sensitive data
 - **No telemetry** — zero tracking, zero analytics, zero data collection
 - **Optional external calls** — only translation may call external APIs (disable with `--no-translate`)
 - **MIT License** — fully open source, audit and modify freely
