@@ -11,9 +11,9 @@
 [![微信公众号](https://img.shields.io/badge/muippt-07C160?logo=wechat&logoColor=white)](https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA)
 [![小红书](https://img.shields.io/badge/muippt-FF2442?logo=xiaohongshu&logoColor=white)](https://xhslink.com/m/ESxtgUNMdl)
 [![书籍](https://img.shields.io/badge/书籍-图解团队管理-BBDDE5?logo=bookstack&logoColor=white)](https://item.m.jd.com/product/14547345.html)
-[![License](https://img.shields.io/github/license/MUIPPT/mu-pdf-converter)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/MUIPPT/mu-pdf-converter)](https://github.com/MUIPPT/mu-pdf-converter/releases)
-[![Stars](https://img.shields.io/github/stars/MUIPPT/mu-pdf-converter)](https://github.com/MUIPPT/mu-pdf-converter/stargazers)
+[![License](https://img.shields.io/github/license/muippt/mu-pdf-converter)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/muippt/mu-pdf-converter)](https://github.com/muippt/mu-pdf-converter/releases)
+[![Stars](https://img.shields.io/github/stars/muippt/mu-pdf-converter)](https://github.com/muippt/mu-pdf-converter/stargazers)
 
 ---
 
@@ -197,11 +197,11 @@ python scripts/mcp_server.py
 
 如果这个工具帮你节省了时间，请给个 Star ⭐ — 帮助更多人发现它！
 
-<a href="https://star-history.com/#MUIPPT/mu-pdf-converter&Date">
+<a href="https://star-history.com/#muippt/mu-pdf-converter&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=muippt/mu-pdf-converter&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=muippt/mu-pdf-converter&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=muippt/mu-pdf-converter&type=Date" />
  </picture>
 </a>
 
@@ -221,7 +221,7 @@ python scripts/mcp_server.py
 
 ### 📄 许可证与致谢
 
-[MIT](LICENSE) © 2024-2026 MUIPPT (木先生iPPT)
+[MIT](LICENSE) © 2024-2026 muippt (木先生iPPT)
 
 **致谢**：感谢 [PyMuPDF](https://github.com/pymupdf/PyMuPDF)、[python-pptx](https://github.com/scanny/python-pptx)、[pdfplumber](https://github.com/jsvine/pdfplumber)、[MarkItDown](https://github.com/microsoft/markitdown) 等优秀开源库提供底层能力支持。
 

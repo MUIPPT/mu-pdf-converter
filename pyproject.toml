@@ -10,7 +10,7 @@ readme = "README.md"
 license = {text = "MIT"}
 requires-python = ">=3.9"
 authors = [
-    {name = "MUIPPT", email = "muippt@gmail.com"},
+    {name = "muippt", email = "muippt@gmail.com"},
 ]
 keywords = ["pdf", "converter", "pptx", "docx", "xlsx", "table-extraction", "translation"]
 classifiers = [
@@ -53,9 +53,9 @@ table-enhanced = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/MUIPPT/mu-pdf-converter"
-Repository = "https://github.com/MUIPPT/mu-pdf-converter"
-Issues = "https://github.com/MUIPPT/mu-pdf-converter/issues"
+Homepage = "https://github.com/muippt/mu-pdf-converter"
+Repository = "https://github.com/muippt/mu-pdf-converter"
+Issues = "https://github.com/muippt/mu-pdf-converter/issues"
 
 [tool.setuptools.packages.find]
 where = ["."]
