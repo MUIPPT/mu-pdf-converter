@@ -6,14 +6,14 @@
 
 > High-fidelity PDF format converter — transform PDFs into fully editable PowerPoint, Word, Excel, and Images with four-layer parsing, three-engine table extraction, and automatic foreign language translation.
 
-**English** | [中文](README_CN.md) | [🌐 Landing Page](https://mupoet.github.io/mu-pdf-converter/)
+**English** | [中文](README_CN.md) | [🌐 Landing Page](https://muippt.github.io/mu-pdf-converter/)
 
 [![WeChat](https://img.shields.io/badge/muippt-07C160?logo=wechat&logoColor=white)](https://mp.weixin.qq.com/s/v1JSZvlN5fvbOOHvkvXEtA)
 [![Xiaohongshu](https://img.shields.io/badge/muippt-FF2442?logo=xiaohongshu&logoColor=white)](https://xhslink.com/m/ESxtgUNMdl)
 [![Book](https://img.shields.io/badge/Book-Visual%20Team%20Management-BBDDE5?logo=bookstack&logoColor=white)](https://item.m.jd.com/product/14547345.html)
-[![License](https://img.shields.io/github/license/mupoet/mu-pdf-converter)](LICENSE)
-[![Version](https://img.shields.io/github/v/release/mupoet/mu-pdf-converter)](https://github.com/mupoet/mu-pdf-converter/releases)
-[![Stars](https://img.shields.io/github/stars/mupoet/mu-pdf-converter)](https://github.com/mupoet/mu-pdf-converter/stargazers)
+[![License](https://img.shields.io/github/license/MUIPPT/mu-pdf-converter)](LICENSE)
+[![Version](https://img.shields.io/github/v/release/MUIPPT/mu-pdf-converter)](https://github.com/MUIPPT/mu-pdf-converter/releases)
+[![Stars](https://img.shields.io/github/stars/MUIPPT/mu-pdf-converter)](https://github.com/MUIPPT/mu-pdf-converter/stargazers)
 
 ---
 
@@ -197,11 +197,11 @@ python scripts/mcp_server.py
 
 If this tool saves you time, consider giving it a star ⭐ — it helps others discover it too!
 
-<a href="https://star-history.com/#mupoet/mu-pdf-converter&Date">
+<a href="https://star-history.com/#MUIPPT/mu-pdf-converter&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=mupoet/mu-pdf-converter&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=mupoet/mu-pdf-converter&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=mupoet/mu-pdf-converter&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=MUIPPT/mu-pdf-converter&type=Date" />
  </picture>
 </a>
 
@@ -221,7 +221,7 @@ If this tool saves you time, consider giving it a star ⭐ — it helps others d
 
 ### 📄 License & Acknowledgments
 
-[MIT](LICENSE) © 2024-2026 mupoet (木先生iPPT)
+[MIT](LICENSE) © 2024-2026 MUIPPT (木先生iPPT)
 
 **Acknowledgments**: Thanks to [PyMuPDF](https://github.com/pymupdf/PyMuPDF), [python-pptx](https://github.com/scanny/python-pptx), [pdfplumber](https://github.com/jsvine/pdfplumber), and [MarkItDown](https://github.com/microsoft/markitdown) for providing excellent underlying library support.
 
