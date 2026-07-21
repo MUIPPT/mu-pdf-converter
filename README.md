@@ -2,7 +2,7 @@
   <img alt="mu-pdf-converter" src="assets/default-banner.png" width="100%">
 </p>
 
-# 🔄 mu-pdf-converter ｜ PDF文件转换器
+# 🔄 mu-pdf-converter · PDF文件转换器
 
 > High-fidelity PDF format converter — transform PDFs into fully editable PowerPoint, Word, Excel, and Images with four-layer parsing, three-engine table extraction, and automatic foreign language translation.
 

@@ -2,7 +2,7 @@
   <img alt="mu-pdf-converter" src="assets/default-banner.png" width="100%">
 </p>
 
-# 🔄 mu-pdf-converter ｜ PDF文件转换器
+# 🔄 mu-pdf-converter · PDF文件转换器
 
 > 高保真 PDF 格式转换工具 — 四层叠加解析、三引擎表格提取、外文自动翻译，将 PDF 转为完全可编辑的 PowerPoint、Word、Excel 和图片。
 
